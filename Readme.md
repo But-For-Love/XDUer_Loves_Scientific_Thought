@@ -8,7 +8,7 @@
 
 ## 环境要求
 
-- Python 3.8 及以上（开发环境为 3.14）
+- Python 3.10 及以上（开发环境为 3.14）
 - 依赖：`requests`、`ddddocr`、`pycryptodome`
 
 ## 安装

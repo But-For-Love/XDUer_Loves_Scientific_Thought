@@ -4,7 +4,7 @@ import json
 import base64
 import ddddocr
 import time
-from typing import Optional
+from typing import Any, Optional
 from encrypt import aes_encrypt
 
 
@@ -134,7 +134,7 @@ def get_class(login_resp: dict, conf: dict, batch: str, category: int = 0) -> di
                        "(KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44"),
     }
     cat = ["FANKC", "XGKC"]
-    form = {
+    form: dict[str, Any] = {
             "teachingClassType": cat[category],
             "pageNumber": 1,
             "pageSize": 300,
