@@ -62,7 +62,8 @@ def login(conf: dict) -> tuple:
 
     header = {
         "Connection": "keep-alive",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44",
+        "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44"),
     }
 
     form = dict(conf["data"])
@@ -129,7 +130,8 @@ def get_class(login_resp: dict, conf: dict, batch: str, category: int = 0) -> di
         "Content-Type": "application/json;charset=UTF-8",
         "batchId": batch,
         "Authorization": login_resp["data"]["token"],
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44",
+        "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44"),
     }
     cat = ["FANKC", "XGKC"]
     form = {
@@ -152,7 +154,8 @@ def add(login_resp: dict, class_dict: dict, cookie: dict, batch: str, always: in
     """选课。"""
 
     header = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44",
+        "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44"),
         "batchId": batch,
         "Authorization": login_resp["data"]["token"]
     }
@@ -192,7 +195,8 @@ def delete(login_resp: dict, class_dict: dict, cookie: dict, batch: str, always:
     """退课。"""
 
     header = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44",
+        "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/103.0.5060.66 Safari/537.36 Edg/103.0.1264.44"),
         "batchId": batch,
         "Authorization": login_resp["data"]["token"]
     }

@@ -67,7 +67,10 @@ def _execute(action: str, cat: int, login_resp: dict, class_dict: dict, cookies:
     """按 action 执行单个任务（query / del / add）。"""
     if action == "query":
         if cat == 0:
-            logger.info("匹配到必修课：%s %s 课序号 %s", class_dict.get("KCH", ""), class_dict.get("KCM", ""), class_dict.get("KXH", ""))
+            logger.info(
+                "匹配到必修课：%s %s 课序号 %s",
+                class_dict.get("KCH", ""), class_dict.get("KCM", ""), class_dict.get("KXH", ""),
+            )
         else:
             logger.info("匹配到选修课：%s %s", class_dict.get("KCH", ""), class_dict.get("KCM", ""))
     elif action == "del":
