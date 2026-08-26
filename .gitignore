@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# 虚拟环境
+.venv/
+
+# IDE
+.idea/
+
+# 敏感配置（不要提交真实学号/密码）
+conf.json
+
+# 运行时/调试产物
+*_pac.json
+classlist.json
+captcha.png
+
+# 工具缓存
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/

@@ -1,0 +1,26 @@
+{
+  "ocr_captcha": "1",
+  "debug": "0",
+  "batch": "2020级",
+  "action": "add",
+  "always": 1,
+  "tasks": [],
+  "bx_or_xx": 0,
+  "bx": [
+    {
+      "KCH": "TE204003",
+      "KXH": "02"
+    }
+  ],
+  "xx": [
+    {
+      "KCH": "FL006066"
+    }
+  ],
+  "data": {
+    "loginname": "你的学号",
+    "password": "你的密码",
+    "captcha": "xxxx",
+    "uuid": "xxxx"
+  }
+}
