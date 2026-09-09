@@ -1,0 +1,20 @@
+[package]
+name = "xdxk-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal", "sync", "time"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "cookies", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+aes = "0.8"
+base64 = "0.22"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "time"] }
+time = { version = "0.3", features = ["formatting"] }
+ort = "2.0.0-rc.13"
+image = "0.25"
+clap = { version = "4", features = ["derive"] }
+thiserror = "2"
+tokio-util = "0.7"

@@ -1,0 +1,28 @@
+{
+  "ocr_captcha": "1",
+  "debug": "0",
+  "batch": "选课批次，例如：第二轮通识选修课程（2025级）",
+  "action": "add",
+  "interval_ms": 0,
+  "always": 1,
+  "tasks": [],
+  "bx_or_xx": 1,
+  "bx": [{
+      "KCH": "课程号，例如：24ZH2011",
+      "KXH": "课序号，例如：01",
+      "KCM": "课程名字，可以不填"
+    }
+  ],
+  "xx": [{
+      "KCH": "课程号，例如：24ZH2011",
+      "KXH": "课序号，例如：01",
+      "KCM": "课程名字，可以不填"
+    }
+  ],
+  "data": {
+    "loginname": "你的学号",
+    "password": "你的密码",
+    "captcha": "xxxx",
+    "uuid": "xxxx"
+  }
+}
