@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '要重新发布的 tag（必须已存在，如 v0.1.0）'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & publish (windows-x64)
+    runs-on: windows-latest
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref_name }}
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+
+      - name: Package
+        shell: pwsh
+        run: ./scripts/package.ps1 -Tag $env:TAG
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: xdxk-rs-${{ env.TAG }}-windows-x64
+          path: |
+            dist/*.zip
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+
+      - name: Publish release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = $env:TAG
+          # 只上传本流程生成的这两个文件，绝不 glob dist/（避免误传 conf.json、旧包）
+          $assets = @("dist/xdxk-rs-$tag-windows-x64.zip", 'dist/SHA256SUMS.txt')
+          foreach ($f in $assets) { if (-not (Test-Path $f)) { throw "缺少资产：$f" } }
+          if (-not (Test-Path 'dist/release-notes.md')) { throw '缺少 dist/release-notes.md' }
+
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "release $tag 已存在，覆盖上传资产"
+            gh release upload $tag @assets --clobber
+            if ($LASTEXITCODE -ne 0) { throw "gh release upload 失败" }
+          } else {
+            gh release create $tag @assets `
+              --title "$tag — 西电选课 / 退课工具（Windows x64）" `
+              --notes-file dist/release-notes.md `
+              --latest
+            if ($LASTEXITCODE -ne 0) { throw "gh release create 失败" }
+          }
