@@ -43,6 +43,9 @@ enum Command {
         once: bool,
     },
     /// 容量检查 / 捡漏
+    ///
+    /// 尚未实现完全：暂时从 --help 里隐藏，功能做完后再移除 hide。
+    #[command(hide = true)]
     Check {
         /// 捡漏模式（扫描全部课程，否则只盯 conf 里配置的课程）
         #[arg(long)]
