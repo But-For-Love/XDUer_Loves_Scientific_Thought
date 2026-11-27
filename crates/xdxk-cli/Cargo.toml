@@ -1,0 +1,20 @@
+[package]
+name = "xdxk-cli"
+description = "西电选课工具的命令行入口（xdxk-rs）"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "xdxk-rs"
+path = "src/main.rs"
+
+[dependencies]
+xdxk-core = { path = "../xdxk-core" }
+tokio = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+time = { version = "0.3", features = ["formatting"] }
+tokio-util = "0.7"
+clap = { version = "4", features = ["derive"] }

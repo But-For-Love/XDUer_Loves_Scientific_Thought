@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: '要重新发布的 tag（必须已存在，如 v0.1.0）'
+        description: '要重新发布的 tag（必须已存在，如 v1.0.0）'
         required: true
 
 permissions:
@@ -14,56 +14,67 @@ permissions:
 
 jobs:
   release:
-    name: Build & publish (windows-x64)
+    name: 出包并发布（windows-x64）
     runs-on: windows-latest
     env:
       TAG: ${{ github.event.inputs.tag || github.ref_name }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.tag || github.ref_name }}
 
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
 
-      - name: Cache cargo
-        uses: Swatinem/rust-cache@v2
+      - uses: dtolnay/rust-toolchain@stable
 
-      - name: Package
+      - uses: Swatinem/rust-cache@v2
+
+      - name: 校验 tag 与版本号一致
         shell: pwsh
-        run: ./scripts/package.ps1 -Tag $env:TAG
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = $env:TAG.TrimStart('v')
+          $line = Select-String -Path pubspec.yaml -Pattern '^version:\s*([^+\s]+)' | Select-Object -First 1
+          if (-not $line) { throw 'pubspec.yaml 里没有 version 字段' }
+          $ver = $line.Matches[0].Groups[1].Value
+          if ($tag -ne $ver) { throw "tag $env:TAG 与 pubspec 版本 $ver 不一致" }
+          "VERSION=$ver" >> $env:GITHUB_ENV
 
-      - name: Upload workflow artifact
+      - name: 打包
+        shell: pwsh
+        run: ./tool/package.ps1
+
+      - name: 上传构建产物
         uses: actions/upload-artifact@v4
         with:
-          name: xdxk-rs-${{ env.TAG }}-windows-x64
+          name: xdxk-gui-${{ env.VERSION }}-windows-x64
           path: |
             dist/*.zip
             dist/SHA256SUMS.txt
           if-no-files-found: error
 
-      - name: Publish release
+      - name: 发布 Release
         shell: pwsh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $ErrorActionPreference = 'Stop'
-          $tag = $env:TAG
-          # 只上传本流程生成的这两个文件，绝不 glob dist/（避免误传 conf.json、旧包）
-          $assets = @("dist/xdxk-rs-$tag-windows-x64.zip", 'dist/SHA256SUMS.txt')
+          # 只传这两个，绝不 glob dist/（避免把 conf.json、旧包一起传上去）
+          $assets = @("dist/xdxk-gui-$env:VERSION-windows-x64.zip", 'dist/SHA256SUMS.txt')
           foreach ($f in $assets) { if (-not (Test-Path $f)) { throw "缺少资产：$f" } }
-          if (-not (Test-Path 'dist/release-notes.md')) { throw '缺少 dist/release-notes.md' }
 
-          gh release view $tag *> $null
+          gh release view $env:TAG *> $null
           if ($LASTEXITCODE -eq 0) {
-            Write-Host "release $tag 已存在，覆盖上传资产"
-            gh release upload $tag @assets --clobber
-            if ($LASTEXITCODE -ne 0) { throw "gh release upload 失败" }
+            Write-Host "release $env:TAG 已存在，覆盖上传资产"
+            gh release upload $env:TAG @assets --clobber
+            if ($LASTEXITCODE -ne 0) { throw 'gh release upload 失败' }
           } else {
-            gh release create $tag @assets `
-              --title "$tag — 西电选课 / 退课工具（Windows x64）" `
-              --notes-file dist/release-notes.md `
+            gh release create $env:TAG @assets `
+              --title "$env:TAG — 西电选课（Windows x64）" `
+              --generate-notes `
               --latest
-            if ($LASTEXITCODE -ne 0) { throw "gh release create 失败" }
+            if ($LASTEXITCODE -ne 0) { throw 'gh release create 失败' }
           }

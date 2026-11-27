@@ -1,0 +1,22 @@
+[package]
+name = "xdxk_bridge"
+description = "flutter_rust_bridge 桥接层：把 xdxk-core 暴露给 Flutter"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+name = "xdxk_bridge"
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+flutter_rust_bridge = "=2.13.0-beta.5"
+xdxk-core = { path = "../crates/xdxk-core" }
+anyhow = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync", "time"] }
+tokio-util = "0.7"
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+time = { version = "0.3", features = ["formatting", "macros"] }

@@ -1,0 +1,30 @@
+name: xdxk_gui
+description: "西电选课工具的图形界面：Rust 内核 + Flutter 界面。"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.1
+
+dependencies:
+  file_selector: ^1.1.0
+  flutter:
+    sdk: flutter
+  flutter_rust_bridge: 2.13.0-beta.5
+  xdxk_bridge:
+    path: rust_builder
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  image: ^4.13.1
+
+flutter:
+  uses-material-design: true
+  fonts:
+    # Saira 可变字体（wdth 50–125、wght 100–900），SIL Open Font License 1.1，
+    # 许可证见 fonts/Saira-OFL.txt。中文回落到系统黑体（苹方 / Noto Sans CJK）。
+    - family: Saira
+      fonts:
+        - asset: fonts/Saira.ttf

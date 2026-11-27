@@ -1,0 +1,13 @@
+# 统一用 LF，避免 Windows 上换行反复变动
+* text=auto eol=lf
+
+# 批处理要 CRLF，否则 cmd 的 goto 标签会出问题
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# 二进制，别碰
+*.onnx binary
+*.ttf binary
+*.ico binary
+*.png binary
+*.zip binary

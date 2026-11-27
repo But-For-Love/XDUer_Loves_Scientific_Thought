@@ -1,35 +1,62 @@
-# ===== Rust / Cargo 构建产物 =====
-/target/
-**/*.rs.bk
-
-# ===== 发布 / 打包产物 =====
-/dist/
-*.exe
-*.zip
-*.msi
-
-# ===== 敏感配置（不提交真实学号/密码） =====
-conf.json
-conf.example.bx.json
-conf.example.xx.json
-conf.*.local.json
-
-# ===== 运行时产物 =====
-captcha.png
+# Miscellaneous
+*.class
 *.log
-
-# ===== IDE / 编辑器 =====
-.vscode/
-.idea/
-*.suo
-*.user
+*.pyc
 *.swp
-*~
-
-# ===== 参考资料（不随仓库提交） =====
-/别人写的抢课脚本/
-
-# ===== 系统文件 =====
 .DS_Store
-Thumbs.db
-desktop.ini
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Widget Preview related
+.widget_preview/
+
+# Rust 构建产物
+/target/
+**/target/
+
+# 本机配置：里面有学号和密码，不要提交
+conf.json
+captcha.png
+
+# 分发包
+/dist/
+
+# 助手笔记
+/.workbuddy/

@@ -1,0 +1,18 @@
+{
+  "ocr_captcha": "1",
+  "debug": "0",
+  "batch": "",
+  "action": "add",
+  "interval_ms": 0,
+  "always": 1,
+  "tasks": [],
+  "bx_or_xx": 1,
+  "bx": [],
+  "xx": [],
+  "data": {
+    "loginname": "",
+    "password": "",
+    "captcha": "",
+    "uuid": ""
+  }
+}
