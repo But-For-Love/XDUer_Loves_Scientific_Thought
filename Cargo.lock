@@ -3120,7 +3120,7 @@ checksum = "3ad82d2a33cdc9674dc7465672f271e096168fcdbe0f799d9e6db8c5892679dc"
 
 [[package]]
 name = "xdxk-cli"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "clap",
  "serde_json",
@@ -3134,7 +3134,7 @@ dependencies = [
 
 [[package]]
 name = "xdxk-core"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "aes",
  "base64 0.22.1",
@@ -3151,7 +3151,7 @@ dependencies = [
 
 [[package]]
 name = "xdxk_bridge"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "anyhow",
  "flutter_rust_bridge",
