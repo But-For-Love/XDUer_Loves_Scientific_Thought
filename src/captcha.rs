@@ -5,7 +5,7 @@ use std::sync::OnceLock;
 use image::imageops::FilterType;
 use image::load_from_memory;
 use ort::session::{RunOptions, Session};
-use ort::value::Value;
+use ort::value::Tensor;
 
 /// 模型文件（轻量模型，由 ddddocr 的 common_old.onnx 重命名而来）。
 const MODEL_PATH: &str = "models/common_lite.onnx";
@@ -68,10 +68,12 @@ fn session() -> Option<&'static tokio::sync::Mutex<Session>> {
     static SESSION: OnceLock<Option<tokio::sync::Mutex<Session>>> = OnceLock::new();
     SESSION
         .get_or_init(|| {
-            Session::builder()
-                .ok()
-                .and_then(|mut b| b.commit_from_file(MODEL_PATH).ok())
-                .map(tokio::sync::Mutex::new)
+            let environment = ort::init().build().ok()?;
+            let session = Session::builder(&environment)
+                .ok()?
+                .commit_from_file(MODEL_PATH)
+                .ok()?;
+            Some(tokio::sync::Mutex::new(session))
         })
         .as_ref()
 }
@@ -84,7 +86,7 @@ pub async fn recognize(png: &[u8]) -> Option<String> {
         .await
         .ok()??;
 
-    let input_value = Value::from_array((vec![1usize, 1, h, w], data)).ok()?;
+    let input_value = Tensor::from_array((vec![1usize, 1, h, w], data)).ok()?;
     let inputs = HashMap::from([("input1".to_string(), input_value)]);
     let run_options = RunOptions::new().ok()?;
     let mut session = session()?.lock().await;

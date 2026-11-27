@@ -13,7 +13,7 @@ base64 = "0.22"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "time"] }
 time = { version = "0.3", features = ["formatting"] }
-ort = "2.0.0-rc.13"
+ort = "2.0.0-rc.15"
 image = "0.25"
 clap = { version = "4", features = ["derive"] }
 thiserror = "2"
