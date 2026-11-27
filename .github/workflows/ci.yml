@@ -38,8 +38,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 固定版本：stable 分支已经飘到会报 material.dart 弃用的新 SDK，
+      # 和本地验证过的 3.47.1 对齐，避免 analyze 因为 info 级提示直接失败
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.47.1'
           channel: stable
           cache: true
 
